@@ -1,0 +1,45 @@
+pipeline {
+  agent any
+  triggers {
+    GenericTrigger(
+     genericVariables: [
+      [key: 'ref', value: '$.ref']
+     ],
+
+     causeString: 'Triggered on $ref',
+
+     token: 'NEW_PIPE',
+     tokenCredentialId: '',
+
+     printContributedVariables: true,
+     printPostContent: true,
+
+     silentResponse: false,
+
+     regexpFilterText: 'refs/heads/develop',
+     regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
+    )
+  }
+stages 
+{
+    stage('Build') {
+      steps {
+	 dir('src')
+        	{       
+		sh 'docker build -t webstatus . '
+        	}
+
+      }
+    }
+    stage('Deploy') {
+      steps {
+
+	 dir('src')
+	        {       
+        	sh 'docker run webstatus .'  
+        	}
+
+      		}
+    		}
+  	}
+}
