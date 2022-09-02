@@ -35,8 +35,11 @@ stages
       steps {
 
 	 dir('src')
-	        {       
-        	echo 'deploy'
+	        { 
+		sh 'docker container stop webstatus'
+                sh 'docker container rm webstatus'
+                sh 'docker run -d --env-file env.webstatus -p 8007:80  --name webstatus  webstatus'
+		echo 'deploy Sucess . . . '
         	}
 
       		}
