@@ -36,9 +36,8 @@ stages
 
 	 dir('src')
 	        { 
-		sh 'docker container stop webstatus'
-                sh 'docker container rm webstatus'
-                sh 'docker run -d --env-file env.webstatus -p 8007:80  --name webstatus  webstatus'
+		sh '/home/arul/MUTHOOT/CUSTOM/DOCKER_COMPOSE/stopbyname.sh webstatus'
+		sh 'docker run -d --env-file env.webstatus -p 8007:80  --name webstatus  webstatus'
 		echo 'deploy Sucess . . . '
         	}
 
